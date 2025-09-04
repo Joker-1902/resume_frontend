@@ -1,25 +1,64 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import AuthForm from './components/AuthForm';
+import ResumeList from './components/ResumeList';
+import ResumeDetail from './components/ResumeDetail';
+import './App.css'; 
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = () => {
+    const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('token'));
+
+    const handleAuthSuccess = () => {
+        setIsAuthenticated(true);
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        setIsAuthenticated(false);
+    };
+
+    return (
+        <Router>
+            <div className="container">
+                <header>
+                    <h1>Управление резюме</h1>
+                    {isAuthenticated && <button onClick={handleLogout}>Выйти</button>}
+                </header>
+                <Routes>
+                    <Route path="/auth" element={
+                        isAuthenticated ? <Navigate to="/resumes" /> : <AuthForm onAuth={handleAuthSuccess} />
+                    } />
+                    <Route path="/resumes" element={
+                        isAuthenticated ? (
+                            <div className="main-content">
+                                <div className="sidebar">
+                                    {/* Передаём только `isAuthenticated` */}
+                                    <ResumeList />
+                                </div>
+                                <div className="details">
+                                    <p>Выберите резюме из списка.</p>
+                                </div>
+                            </div>
+                        ) : <Navigate to="/auth" />
+                    } />
+                    <Route path="/resumes/:id" element={
+                        isAuthenticated ? (
+                            <div className="main-content">
+                                <div className="sidebar">
+                                    <ResumeList />
+                                </div>
+                                <div className="details">
+                                    {/* `ResumeDetail` теперь получает ID из URL */}
+                                    <ResumeDetail />
+                                </div>
+                            </div>
+                        ) : <Navigate to="/auth" />
+                    } />
+                    <Route path="/" element={<Navigate to="/auth" />} />
+                </Routes>
+            </div>
+        </Router>
+    );
+};
 
 export default App;
