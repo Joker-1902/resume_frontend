@@ -31,7 +31,7 @@ const ResumeList = () => {
         try {
             const response = await api.post('/resumes', { title, content });
             setResumes([...resumes, response.data]);
-            // Переходим на страницу нового резюме
+            
             navigate(`/resumes/${response.data.id}`);
             setIsModalOpen(false);
         } catch (error) {
@@ -46,7 +46,7 @@ const ResumeList = () => {
             <button onClick={handleCreate}>Добавить новое резюме</button>
             <ul>
                 {resumes.map(resume => (
-                    // Переходим на URL-адрес резюме
+                    
                     <li key={resume.id} onClick={() => navigate(`/resumes/${resume.id}`)}>
                         {resume.title}
                     </li>

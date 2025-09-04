@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './Modal.css'; // Создай этот CSS файл для стилей модального окна
+import './Modal.css'; 
 
 const CreateResumeModal = ({ onSave, onClose }) => {
     const [title, setTitle] = useState('');

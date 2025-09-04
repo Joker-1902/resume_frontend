@@ -5,13 +5,13 @@ import { useParams } from 'react-router-dom';
 const ResumeDetail = () => {
     const [resume, setResume] = useState(null);
     const [message, setMessage] = useState('');
-    const { id } = useParams(); // Получаем ID из URL
+    const { id } = useParams(); 
 
     useEffect(() => {
         if (id) {
             fetchResume(id);
         }
-    }, [id]); // useEffect будет запускаться, когда ID в URL изменится
+    }, [id]); 
 
     const fetchResume = async (resumeId) => {
         try {

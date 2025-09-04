@@ -32,7 +32,6 @@ const App = () => {
                         isAuthenticated ? (
                             <div className="main-content">
                                 <div className="sidebar">
-                                    {/* Передаём только `isAuthenticated` */}
                                     <ResumeList />
                                 </div>
                                 <div className="details">
@@ -48,7 +47,6 @@ const App = () => {
                                     <ResumeList />
                                 </div>
                                 <div className="details">
-                                    {/* `ResumeDetail` теперь получает ID из URL */}
                                     <ResumeDetail />
                                 </div>
                             </div>
